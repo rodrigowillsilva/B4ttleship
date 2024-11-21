@@ -1,6 +1,6 @@
 //const mqtt = require('mqtt');
-const { connectMQTT, subscribeToTopic, publishMessage, unsubscribeFromTopic } = require('./mqttServices');
-const { Game, Player, games } = require("./gameModel");
+import { connectMQTT, subscribeToTopic, publishMessage, unsubscribeFromTopic } from './mqttServices.js';
+import { Game, Player, games } from './gameModel.js';
 
 connectMQTT();
 

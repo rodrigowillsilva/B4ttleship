@@ -1,5 +1,5 @@
 //const mqtt = require('mqtt');
-const config = require('./mqttConfig');
+import config from './mqttConfig.js';
 
 let client;
 
