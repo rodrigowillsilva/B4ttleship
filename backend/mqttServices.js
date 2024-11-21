@@ -54,4 +54,5 @@ function publishMessage(topic, message) {
     });
 }
 
+// Exporta as funções para serem usadas em outros arquivos
 export default { connectMQTT, subscribeToTopic, unsubscribeFromTopic, publishMessage };
