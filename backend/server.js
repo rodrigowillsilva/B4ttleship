@@ -8,7 +8,7 @@ const { Game, Player, games } = gameModels;
 connectMQTT();
 
 // subscreva no topico teste para testarmos no site do github pages
-subscribeToTopic('teste', (topic, body) => {
+subscribeToTopic('teste', (body) => {
     console.log(`Mensagem recebida: ${body.toString()}`);
 });
 
