@@ -1,5 +1,8 @@
-import { connectMQTT, subscribeToTopic, publishMessage, unsubscribeFromTopic } from './mqttServices.js';
-import { Game, Player, games } from './gameModel.js';
+import mqttServices from './mqttServices.js';
+import gameModels from './gameModel.js';
+
+const { connectMQTT, subscribeToTopic, publishMessage, unsubscribeFromTopic } = mqttServices;
+const { Game, Player, games } = gameModels;
 
 // Conecte-se ao HiveMQ
 connectMQTT();
