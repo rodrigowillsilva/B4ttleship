@@ -35,4 +35,4 @@ class Game {
 const games = [];
 
 // Exportando a classe Game e o array games
-module.exports = { Game, Player, games };
+export default { Game, Player, games };

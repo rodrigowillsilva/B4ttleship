@@ -19,4 +19,4 @@ const mqttConfig = {
     password
 }
 
-module.exports = mqttConfig;
+export default mqttConfig;
