@@ -2,6 +2,7 @@
 import { connectMQTT, subscribeToTopic, publishMessage, unsubscribeFromTopic } from './mqttServices.js';
 import { Game, Player, games } from './gameModel.js';
 
+// Conecte-se ao HiveMQ
 connectMQTT();
 
 // subscreva no topico teste para testarmos no site do github pages
