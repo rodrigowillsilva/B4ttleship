@@ -54,4 +54,4 @@ function publishMessage(topic, message) {
     });
 }
 
-module.exports = { connectMQTT, subscribeToTopic, unsubscribeFromTopic, publishMessage };
+export default { connectMQTT, subscribeToTopic, unsubscribeFromTopic, publishMessage };
