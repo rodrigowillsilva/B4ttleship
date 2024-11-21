@@ -55,4 +55,11 @@ function publishMessage(topic, message) {
 }
 
 // Exporta as funções para serem usadas em outros arquivos
-export { connectMQTT, subscribeToTopic, unsubscribeFromTopic, publishMessage };
+const mqttServices = {
+    connectMQTT,
+    subscribeToTopic,
+    unsubscribeFromTopic,
+    publishMessage
+};
+
+export default mqttServices;
