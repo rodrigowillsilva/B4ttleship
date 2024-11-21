@@ -9,7 +9,7 @@ connectMQTT();
 
 // subscreva no topico teste para testarmos no site do github pages
 subscribeToTopic('teste', (topic, body) => {
-    console.log(`Mensagem recebida no tópico ${topic}: ${body.toString()}`);
+    console.log(`Mensagem recebida: ${body.toString()}`);
 });
 
 // function findGame(gameId, player, goToGameBoardCallback) {
