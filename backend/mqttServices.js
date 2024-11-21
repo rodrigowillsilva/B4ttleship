@@ -54,7 +54,7 @@ function publishMessage(topic, message) {
     });
 }
 
-// Exporta as funções para serem usadas em outros arquivos
+// Exporta as funções para serem usadas em outros arquivos do projeto
 const mqttServices = {
     connectMQTT,
     subscribeToTopic,

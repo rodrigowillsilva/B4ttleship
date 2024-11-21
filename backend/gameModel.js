@@ -34,7 +34,7 @@ class Game {
 // Array para armazenar os jogos
 const games = [];
 
-// Exportando a classe Game e o array games
+// Exportando a classe Game e o array gameModels
 const gameModels = {
     Game,
     Player,
