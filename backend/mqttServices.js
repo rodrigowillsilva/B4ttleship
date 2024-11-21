@@ -1,4 +1,3 @@
-//const mqtt = require('mqtt');
 import config from './mqttConfig.js';
 
 let client;
