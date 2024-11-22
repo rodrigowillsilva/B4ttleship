@@ -84,7 +84,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             game.winner = '';
             game.messages = [];
 
-            playerInfo.name = 'Player 1';
+            //playerInfo.name = 'Player 1';
 
             goToGameBoardCallback();
             subscribeToTopic(`B4ttle/${gameId}/chat`, (message) => {
