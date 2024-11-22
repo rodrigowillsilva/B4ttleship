@@ -2,6 +2,9 @@ import config from './mqttConfig.js';
 
 let client;
 
+// Store topic-callback mappings
+const topicCallbacks = new Map();
+
 function connectMQTT() {
     client = mqtt.connect(config.connectUrl, {
         clientId: config.client_Id,
@@ -19,6 +22,15 @@ function connectMQTT() {
     });
 }
 
+// Single message handler for all topics
+client.on('message', (receivedTopic, message) => {
+    // Get the specific callback for this topic
+    const callback = topicCallbacks.get(receivedTopic);
+    if (callback) {
+        callback(message);
+    }
+});
+
 function subscribeToTopic(topic, callback) {
     // Função para subscrever a um tópico e ouvir as mensagens
     client.subscribe([topic], (err) => {
@@ -29,9 +41,8 @@ function subscribeToTopic(topic, callback) {
         }
     });
 
-    client.on('message', (topic, message) => {
-        callback(message);
-    });
+    // Adiciona o callback ao mapeamento de tópicos
+    topicCallbacks.set(topic, callback);
 }
 
 function unsubscribeFromTopic(topic) {
