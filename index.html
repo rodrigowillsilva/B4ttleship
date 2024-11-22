@@ -42,7 +42,8 @@
             const message = document.getElementById('messageInput').value;
             console.log('Mensagem:', message);
             // Enviar a mensagem para o servidor MQTT da funçao contina no arquivo server.js
-
+            //PublicarMensagem(topic, message)
+            publicarMensagem('chat', message);
 
         }
 
