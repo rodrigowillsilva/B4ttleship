@@ -102,7 +102,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 }
 
 export function PublicarMensagem(topic, message) {
-    publishMessage(`B4ttle/${topic}/chat`, message);
+    publishMessage(`B4ttle/${game.gameId}/${topic}`, message);
 }
 
 function startGame() {
