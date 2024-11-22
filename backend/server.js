@@ -42,6 +42,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
         if (action === 'ProcurarJogo') {
             game.players.push(player);
             console.log(`Jogador ${player.name} entrou no jogo`);
+            console.log(`${JSON.stringify(playerInfo)}`);
             publishMessage(`B4ttle/${gameId}/descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)}`);
 
             if (game.players.length >= 4) {
