@@ -51,7 +51,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             game.host = messagePlayerInfo;
             unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
             goToGameBoardCallback();
-            subscribeToTopic(`B4ttle/${gameId}/chat`, (topic, message) => {
+            subscribeToTopic(`B4ttle/${gameId}/chat`, (message) => {
                 // Processa as mensagens do chat
                 console.log(`Mensagem recebida: ${message.toString()}`);
 
@@ -67,7 +67,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             // unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
 
             // Comnfigura um novo jogo
-            subscribeToTopic(`B4ttle/${gameId}/jogada`, (topic, message) => {
+            subscribeToTopic(`B4ttle/${gameId}/jogada`, (message) => {
                 // Processa o movimento do jogador
             });
 
@@ -84,7 +84,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             playerInfo.name = 'Player 1';
 
             goToGameBoardCallback();
-            subscribeToTopic(`B4ttle/${gameId}/chat`, (topic, message) => {
+            subscribeToTopic(`B4ttle/${gameId}/chat`, (message) => {
                 // Processa as mensagens do chat
                 console.log(`Mensagem recebida: ${message.toString()}`);
 
@@ -95,7 +95,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 }
 
 export function PublicarMensagem(topic, message) {
-    publishMessage(`B4ttle/${game.id}/chat`, message);
+    publishMessage(`B4ttle/${topic}/chat`, message);
 }
 
 function startGame() {
