@@ -4,8 +4,8 @@ import gameModels from './gameModel.js';
 const { connectMQTT, subscribeToTopic, publishMessage, unsubscribeFromTopic } = mqttServices;
 const { Game, Player, games } = gameModels;
 
-const playerInfo = undefined;
-const game = undefined;
+const playerInfo = new Player("playerId", "playerName");
+const game = new Game("gameId");
 
 // Conecte-se ao HiveMQ
 export function InicializaConexaoMQTT() {
@@ -18,8 +18,10 @@ export function InicializaConexaoMQTT() {
 }
 
 export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
-    playerInfo = new Player(Math.random().toString(16), playerName);
-    game = new Game(gameId);
+    playerInfo.id = Math.random().toString(16);
+    playerInfo.name = playerName;
+
+    game.id = gameId;
 
     // Inscreva-se no tópico do jogo
     subscribeToTopic(`B4ttle/${gameId}/estado`, (message) => {
