@@ -10,6 +10,11 @@ const game = new Game("gameId");
 // Conecte-se ao HiveMQ
 export function InicializaConexaoMQTT() {
     connectMQTT();
+
+    // subscreva no topico teste para testarmos no site do github pages
+    subscribeToTopic('teste', (body) => {
+        console.log(`Mensagem recebida: ${body.toString()}`);
+    });
 }
 
 export function ProcurarJogo(gameId, player, goToGameBoardCallback) {
@@ -49,7 +54,7 @@ export function ProcurarJogo(gameId, player, goToGameBoardCallback) {
             subscribeToTopic(`B4ttle/${gameId}/chat`, (topic, message) => {
                 // Processa as mensagens do chat
                 console.log(`Mensagem recebida: ${message.toString()}`);
-            
+
             });
         }
 
@@ -82,7 +87,7 @@ export function ProcurarJogo(gameId, player, goToGameBoardCallback) {
             subscribeToTopic(`B4ttle/${gameId}/chat`, (topic, message) => {
                 // Processa as mensagens do chat
                 console.log(`Mensagem recebida: ${message.toString()}`);
-            
+
             });
 
         }
@@ -92,11 +97,6 @@ export function ProcurarJogo(gameId, player, goToGameBoardCallback) {
 export function PublicarMensagem(topic, message) {
     publishMessage(`B4ttle/${game.id}/chat`, message);
 }
-
-// subscreva no topico teste para testarmos no site do github pages
-subscribeToTopic('teste', (body) => {
-    console.log(`Mensagem recebida: ${body.toString()}`);
-});
 
 function startGame() {
     // Inicializa a gameplay do jogo
