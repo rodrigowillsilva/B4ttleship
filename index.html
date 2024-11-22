@@ -31,6 +31,9 @@
         // Inicializa a conexão com o servidor MQTT
         InicializaConexaoMQTT();
 
+        // Procura um jogo disponível
+        ProcurarJogo();
+
         function sendMessage() {
             // Função será definida posteriormente
             const message = document.getElementById('messageInput').value;
