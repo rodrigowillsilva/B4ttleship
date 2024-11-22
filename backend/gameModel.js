@@ -9,10 +9,10 @@ class Player {
 }
 
 class Game {
-    constructor(gameId, host) {
+    constructor(gameId) {
         this.gameId = gameId;
-        this.host = host;
-        this.players = [host];
+        this.host = undefined;
+        this.players = [];
         this.turn = 0;
         this.board = [];
         this.ships = [];
@@ -20,7 +20,7 @@ class Game {
         this.winner = '';
         this.messages = [];
 
-        this.players.push(host);
+        //this.players.push(host);
     }
 
     // Métodos para controlar o jogo podem ser adicionados aqui

@@ -10,11 +10,29 @@
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
 <body>
-  <h1>Batalha Naval</h1>
-  <!-- Botão para enviar um movimento -->
-  <button id="sendMove">Enviar Movimento</button>
+    <h1>Batalha Naval</h1>
+    <!-- Botão para enviar um movimento -->
+    <button id="sendMove">Enviar Movimento</button>
+    
+    <div class="input-container">
+      <input type="text" id="messageInput" placeholder="Digite sua mensagem">
+      <button id="sendButton" onclick="sendMessage()">Enviar</button>
+    </div>
   
-  <!-- O seu script com a lógica do jogo -->
-  <script type="module" src="./backend/server.js"></script>
-</body>
-</html>
+    <!-- O seu script com a lógica do jogo -->
+    <!--<script type="module" src="./backend/server.js"></script> -->
+  
+
+    <script type="module">
+        import { InicializaConexaoMQTT, ProcurarJogo } from './backend/server.js';
+
+      function sendMessage() {
+          // Função será definida posteriormente
+          const message = document.getElementById('messageInput').value;
+          console.log('Mensagem:', message);
+            // Enviar a mensagem para o servidor MQTT da funçao contina no arquivo server.js
+
+
+      }
+    </script>
+  </body>
