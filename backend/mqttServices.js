@@ -20,16 +20,18 @@ function connectMQTT() {
     client.on('error', (err) => {
         console.log('Connection error:', err);
     });
+
+    // Single message handler for all topics
+    client.on('message', (receivedTopic, message) => {
+        // Get the specific callback for this topic
+        const callback = topicCallbacks.get(receivedTopic);
+        if (callback) {
+            callback(message);
+        }
+    });
 }
 
-// Single message handler for all topics
-client.on('message', (receivedTopic, message) => {
-    // Get the specific callback for this topic
-    const callback = topicCallbacks.get(receivedTopic);
-    if (callback) {
-        callback(message);
-    }
-});
+
 
 function subscribeToTopic(topic, callback) {
     // Função para subscrever a um tópico e ouvir as mensagens
