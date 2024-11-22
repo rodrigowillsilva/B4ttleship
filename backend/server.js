@@ -23,11 +23,6 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     game.id = gameId;
 
-    // Inscreva-se no tópico do jogo
-    subscribeToTopic(`B4ttle/${gameId}/estado`, (message) => {
-        // Para jogadores receberem o estado do jogo do host e atualizarem seu front-end
-    });
-
     subscribeToTopic(`B4ttle/${gameId}/descoberta`, (body) => {
         const [action, message] = body.toString().split(' ');
         console.log(`Action: ${action}, Message: ${message}`);
@@ -51,9 +46,18 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             }
         }
         else if (action === 'JogoEncontrado') {
+            if (game.host !== undefined) {
+                return;
+            }
             game.host = messagePlayerInfo;
             unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
             goToGameBoardCallback();
+
+            // Inscreva-se no tópico do jogo
+            subscribeToTopic(`B4ttle/${gameId}/estado`, (message) => {
+                // Para jogadores receberem o estado do jogo do host e atualizarem seu front-end
+            });
+
             subscribeToTopic(`B4ttle/${gameId}/chat`, (message) => {
                 // Processa as mensagens do chat
                 console.log(`Mensagem recebida: ${message.toString()}`);
