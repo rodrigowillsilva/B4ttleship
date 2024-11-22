@@ -30,7 +30,9 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     subscribeToTopic(`B4ttle/${gameId}/descoberta`, (body) => {
         const [action, message] = body.toString().split(' ');
+        console.log(`Action: ${action}, Message: ${message}`);
         const messagePlayerInfo = JSON.parse(message);
+        console.log(`Message Player Info: ${messagePlayerInfo}`);
         const player = new Player(messagePlayerInfo.id, messagePlayerInfo.name);
 
         if (playerInfo.id === messagePlayerInfo.id) {
