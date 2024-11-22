@@ -32,8 +32,10 @@
         InicializaConexaoMQTT();
 
         // Procura um jogo disponível
-
-        ProcurarJogo("teste", );
+        //function ProcurarJogo(gameId, playerName, goToGameBoardCallback)
+        ProcurarJogo("teste", "Rodrigo", () => {
+            console.log('Jogo encontrado!');
+        });
 
         function sendMessage() {
             // Função será definida posteriormente
