@@ -77,7 +77,6 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             function updateConnectionTimer() {
                 // Atualiza o connectionTimer do jogador a cada 1 segundo
                 publishMessage(`B4ttle/${gameId}/timer`, JSON.stringify(playerInfo));
-                console.log(`Player ${playerInfo.name} está conectado`);
                 setTimeout(updateConnectionTimer, 1000); // Call itself after 1 second
             }
 
@@ -162,6 +161,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                         if (connectionTimers[i] === 0) {
                             // Desconecta o jogador
                             DesconectarJogador(game.players[i]);
+                            console.log(`Player ${game.players[i].name} desconectado`);
                         }
                         connectionTimers[i] = 0;
                     }
