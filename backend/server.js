@@ -37,12 +37,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
         }
 
         if (action === 'ProcurarJogo') {
-            // Checar se o jogador já está no jogo
-            if (game.players.find(p => p.id === player.id) !== undefined) {
-                return;
-            }
-
-            game.players.push(player);
+             game.players.push(player);
             // console.log(`Jogador ${player.name} entrou no jogo`);
             // console.log(`${JSON.stringify(playerInfo)}`);
             connectionTimers.fill(1);
