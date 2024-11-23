@@ -80,8 +80,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                 console.log(`Action: ${action}, Body: ${body}`);
                 switch (action) {
                     case 'SairDoJogo':
-                        const [bodyGame, playerBody] = body.split(' ');
-                        const playerInfo = JSON.parse(playerBody);
+                        const playerInfo = JSON.parse(body);
 
                         // Remove todos os navios do jogador do tabuleiro x, y e Ship
                         game.board.forEach((row, x) => {
@@ -92,10 +91,8 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
                         // Remove o jogador da lista de jogadores
                         game.players = game.players.filter(player => player.id !== playerInfo.id);
-
+                        console.log(`Jogador ${playerInfo.name} saiu do jogo`);
                         // Se o jogador que saiu for o host, selecione um novo host
-
-
 
                         break;
                     default:
