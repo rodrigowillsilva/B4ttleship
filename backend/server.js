@@ -97,7 +97,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     });
 
-    publishMessage(`B4ttle/${gameId}/descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`);
+    PublicarMensagem(`B4ttle/${gameId}/descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`);
 
     setTimeout(() => {
         if (game.host === undefined) {
@@ -207,7 +207,6 @@ export function SairDoJogo() {
 
 export function PublicarMensagem(topic, message) {
     publishMessage(`B4ttle/${game.gameId}/${topic}`, message);
-    console.log(`Mensagem publicada: ${message} no tópico ${topic}`);
 }
 
 export function PrintGameInfo() {

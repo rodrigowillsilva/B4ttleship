@@ -60,6 +60,7 @@ function unsubscribeFromTopic(topic) {
 
 function publishMessage(topic, message) {
     // Função para publicar uma mensagem em um tópico
+    console.log(`Publishing message to topic ${topic}: ${message}`);
     client.publish(topic, message, { qos: 1, retain: false }, (error) => {
         if (error) {
             console.error(error);
