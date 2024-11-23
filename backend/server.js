@@ -36,9 +36,11 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             return;
         }
 
+        console.log(`passou aqui`);
+
         if (action === 'ProcurarJogo') {
-             game.players.push(player);
-            // console.log(`Jogador ${player.name} entrou no jogo`);
+            game.players.push(player);
+            console.log(`Jogador ${player.name} entrou no jogo`);
             // console.log(`${JSON.stringify(playerInfo)}`);
             connectionTimers.fill(1);
             publishMessage(`B4ttle/${gameId}/descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)}`);
@@ -76,10 +78,10 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                 console.log(`Player ${playerInfo.name} está conectado`);
                 setTimeout(updateConnectionTimer, 1000); // Call itself after 1 second
             }
-            
+
             // Start the recursive calls
             setTimeout(updateConnectionTimer, 1000);
-            
+
         }
 
     });
@@ -166,7 +168,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                 setTimeout(CheckConnection, 3000);
             }
 
-            setTimeout( CheckConnection, 3000);
+            setTimeout(CheckConnection, 3000);
 
 
         }
