@@ -27,6 +27,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     subscribeToTopic(`B4ttle/${gameId}/descoberta`, (body) => {
         const [action, message] = body.toString().split(' ');
+        console.log(`Action: ${action}`); 
         const messagePlayerInfo = JSON.parse(message);
         const player = new Player(messagePlayerInfo.id, messagePlayerInfo.name);
 
@@ -52,7 +53,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                 }
             }
 
-            publishMessage(`B4ttle/${gameId}/descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)} ${n}`);
+            publishMessage(`B4ttle/${gameId}/descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)}`);
 
             if (game.players.length >= 4) {
                 unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
