@@ -56,9 +56,6 @@
         // Attach sendMessage to the window object
         window.sendMessage = sendMessage;
 
-        // Remove previous event listener
-        window.removeEventListener('beforeunload');
-
         document.addEventListener('DOMContentLoaded', () => {
             window.addEventListener('beforeunload', (event) => { // Perform any cleanup or save state here 
                 console.log('User is about to close the tab or browser');
