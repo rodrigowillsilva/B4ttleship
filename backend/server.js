@@ -4,7 +4,7 @@ import gameModels from './gameModel.js';
 const { connectMQTT, subscribeToTopic, publishMessage, unsubscribeFromTopic } = mqttServices;
 const { Game, Player, Ship, Point } = gameModels;
 
-const playerInfo = new Player("playerId", "playerName");
+const playerInfo = new Player(0, "playerName");
 const game = new Game("gameId");
 
 const connectionTimers = new Array(4).fill(0);
@@ -20,16 +20,14 @@ export function InicializaConexaoMQTT() {
 }
 
 export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
-    playerInfo.id = Math.random().toString(16);
+    playerInfo.id = Math.floor(Math.random() * 10000000);
     playerInfo.name = playerName;
 
     game.id = gameId;
 
     subscribeToTopic(`B4ttle/${gameId}/descoberta`, (body) => {
         const [action, message] = body.toString().split(' ');
-        console.log(`Action: ${action}, Message: ${message}`);
         const messagePlayerInfo = JSON.parse(message);
-        console.log(`Message Player Info: ${messagePlayerInfo}`);
         const player = new Player(messagePlayerInfo.id, messagePlayerInfo.name);
 
         console.log(`check 1`);
@@ -45,7 +43,16 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             console.log(`Jogador ${player.name} entrou no jogo`);
             // console.log(`${JSON.stringify(playerInfo)}`);
             connectionTimers.fill(1);
-            publishMessage(`B4ttle/${gameId}/descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)}`);
+
+            let n = 0;
+            for (let i = 1; i < 4; i++) {
+                if (game.players[i] === undefined) {
+                    n = i;
+                    break;
+                }
+            }
+
+            publishMessage(`B4ttle/${gameId}/descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)} ${n}`);
 
             if (game.players.length >= 4) {
                 unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
@@ -104,14 +111,22 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                         const playerInfo = JSON.parse(body);
 
                         // Remove todos os navios do jogador do tabuleiro x, y e Ship
-                        game.board.forEach((row, x) => {
-                            row.forEach((cell, y) => {
-                                cell = cell.filter(ship => ship.playerId !== playerInfo.id);
-                            });
-                        });
+                        for (let i = 0; i < 10; i++) {
+                            for (let j = 0; j < 10; j++) {
+                                if (game.board[i][j][playerInfo.id] === 1) {
+                                    game.board[i][j][playerInfo.id] = 0;
+                                }
+                            }
+                        }
 
-                        // Remove o jogador da lista de jogadores
-                        game.players = game.players.filter(player => player.id !== playerInfo.id);
+                        // Setar o jogador como undefined
+                        for (let i = 1; i < 4; i++) {
+                            if (game.players[i] !== undefined) {
+                                if (game.players[i].id === playerInfo.id) {
+                                    game.players[i] = undefined;
+                                }
+                            }
+                        }
                         console.log(`Jogador ${playerInfo.name} saiu do jogo`);
                         // Se o jogador que saiu for o host, selecione um novo host
 
