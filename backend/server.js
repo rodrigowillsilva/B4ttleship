@@ -207,6 +207,7 @@ export function SairDoJogo() {
 
 export function PublicarMensagem(topic, message) {
     publishMessage(`B4ttle/${game.gameId}/${topic}`, message);
+    console.log(`Mensagem publicada: ${message} no tópico ${topic}`);
 }
 
 export function PrintGameInfo() {
