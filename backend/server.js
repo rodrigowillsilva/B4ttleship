@@ -27,7 +27,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     subscribeToTopic(`B4ttle/${gameId}/descoberta`, (body) => {
         const [action, message] = body.toString().split(' ');
-        console.log(`Action: ${action}`); 
+        console.log(`Action: ${action}`);
         const messagePlayerInfo = JSON.parse(message);
         const player = new Player(messagePlayerInfo.id, messagePlayerInfo.name);
 
@@ -108,29 +108,8 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                 const [action, body] = message.toString().split(' ');
                 console.log(`Action: ${action}, Body: ${body}`);
                 switch (action) {
-                    case 'SairDoJogo':
-                        const playerInfo = JSON.parse(body);
-
-                        // Remove todos os navios do jogador do tabuleiro x, y e Ship
-                        for (let i = 0; i < 10; i++) {
-                            for (let j = 0; j < 10; j++) {
-                                if (game.board[i][j][playerInfo.id] === 1) {
-                                    game.board[i][j][playerInfo.id] = 0;
-                                }
-                            }
-                        }
-
-                        // Setar o jogador como undefined
-                        for (let i = 1; i < 4; i++) {
-                            if (game.players[i] !== undefined) {
-                                if (game.players[i].id === playerInfo.id) {
-                                    game.players[i] = undefined;
-                                }
-                            }
-                        }
-                        console.log(`Jogador ${playerInfo.name} saiu do jogo`);
-                        // Se o jogador que saiu for o host, selecione um novo host
-
+                    case 'movimento':
+                        // Processa o movimento do jogador
                         break;
                     default:
                         break;
@@ -177,7 +156,6 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                         if (connectionTimers[i] === 0) {
                             // Desconecta o jogador
                             DesconectarJogador(game.players[i]);
-                            console.log(`Player ${game.players[i].name} desconectado`);
                         }
                         connectionTimers[i] = 0;
                     }
@@ -195,7 +173,26 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
 export function DesconectarJogador(player) {
     // Desconecta o jogador
-    publishMessage(`B4ttle/${game.gameId}/jogada`, `SairDoJogo ${JSON.stringify(player)}`);
+    // Remove todos os navios do jogador do tabuleiro x, y e Ship
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            if (game.board[i][j][player.id] === 1) {
+                game.board[i][j][player.id] = 0;
+            }
+        }
+    }
+
+    // Setar o jogador como undefined
+    for (let i = 1; i < 4; i++) {
+        if (game.players[i] !== undefined) {
+            if (game.players[i].id === player.id) {
+                game.players[i] = undefined;
+            }
+        }
+    }
+    console.log(`Jogador ${player.name} saiu do jogo`);
+    // Se o jogador que saiu for o host, selecione um novo host
+    // TODO: Implementar a seleção de um novo host
 }
 
 
