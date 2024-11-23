@@ -56,17 +56,17 @@
         // Attach sendMessage to the window object
         window.sendMessage = sendMessage;
 
-        // Detect when the user is about to close the tab or browser
-        window.addEventListener('beforeunload', (event) => {
-            // Perform any cleanup or save state here
-            console.log('User is about to close the tab or browser');
+        // Remove previous event listener
+        window.removeEventListener('beforeunload');
 
-            PublicarMensagem('chat', 'Saindo do jogo...');
-            SairDoJogo();
-
-            // Optionally, show a confirmation dialog
-            event.preventDefault();
-            event.returnValue = 'are you sure you want to leave?';
+        document.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('beforeunload', (event) => { // Perform any cleanup or save state here 
+                console.log('User is about to close the tab or browser');
+                PublicarMensagem('chat', 'Saindo do jogo...'); SairDoJogo();
+                // Optionally, show a confirmation dialog 
+                // event.preventDefault(); 
+                // event.returnValue = 'are you sure you want to leave?'; 
+            });
         });
     </script>
 </body>
