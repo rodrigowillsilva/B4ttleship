@@ -134,8 +134,6 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             game.players = [playerInfo];
             game.host = playerInfo;
             game.turn = 0;
-            game.board = [];
-            game.ships = [];
             game.gameStatus = 'waiting';
             game.winner = '';
             game.messages = [];
