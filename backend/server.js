@@ -70,6 +70,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             setTimeout((function() { 
                 // Atualiza o connectionTimer do jogador a cada 1 segundo
                 publishMessage(`B4ttle/${gameId}/timer`, JSON.stringify(playerInfo));
+                console.log(`Paaaaaa`);
                 setTimeout(arguments.callee, 1000); 
 
             }, 1000));
