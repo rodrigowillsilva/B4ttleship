@@ -170,7 +170,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
 
         }
-    }, 3000);
+    }, 4000);
 }
 
 export function DesconectarJogador(player) {
