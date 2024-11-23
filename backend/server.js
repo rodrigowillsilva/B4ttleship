@@ -45,14 +45,6 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             // console.log(`${JSON.stringify(playerInfo)}`);
             connectionTimers.fill(1);
 
-            let n = 0;
-            for (let i = 1; i < 4; i++) {
-                if (game.players[i] === undefined) {
-                    n = i;
-                    break;
-                }
-            }
-
             publishMessage(`B4ttle/${gameId}/descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)}`);
 
             if (game.players.length >= 4) {
@@ -95,7 +87,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     });
 
-    setTimeout(publishMessage(`B4ttle/${gameId}/descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`), 1000);
+    publishMessage(`B4ttle/${gameId}/descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`);
 
     setTimeout(() => {
         if (game.host === undefined) {
@@ -153,8 +145,10 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                 console.log(`Checking connection...`);
                 for (let i = 1; i < 4; i++) {
                     if (game.players[i] !== undefined) {
+                        console.log(`Player ${game.players[i].name} connectionTimer: ${connectionTimers[i]}`);
                         if (connectionTimers[i] === 0) {
                             // Desconecta o jogador
+                            
                             DesconectarJogador(game.players[i]);
                         }
                         connectionTimers[i] = 0;
