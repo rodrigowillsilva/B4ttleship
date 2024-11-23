@@ -55,14 +55,6 @@
 
         // Attach sendMessage to the window object
         window.sendMessage = sendMessage;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            window.addEventListener('beforeunload', (event) => {
-                event.preventDefault();
-                event.returnValue = ''; // Isso é necessário para que o navegador mostre o diálogo padrão
-                PublicarMensagem('chat', 'Saindo do jogo...');
-                SairDoJogo();
-            });
-        });
+        
     </script>
 </body>

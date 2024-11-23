@@ -7,6 +7,8 @@ const { Game, Player, Ship, Point } = gameModels;
 const playerInfo = new Player("playerId", "playerName");
 const game = new Game("gameId");
 
+const connectionTimers = new Array(4).fill(0);
+
 // Conecte-se ao HiveMQ
 export function InicializaConexaoMQTT() {
     connectMQTT();
@@ -36,8 +38,9 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
         if (action === 'ProcurarJogo') {
             game.players.push(player);
-            console.log(`Jogador ${player.name} entrou no jogo`);
-            console.log(`${JSON.stringify(playerInfo)}`);
+            // console.log(`Jogador ${player.name} entrou no jogo`);
+            // console.log(`${JSON.stringify(playerInfo)}`);
+            connectionTimers.fill(1);
             publishMessage(`B4ttle/${gameId}/descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)}`);
 
             if (game.players.length >= 4) {
@@ -63,6 +66,10 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                 console.log(`Mensagem recebida: ${message.toString()}`);
 
             });
+
+            setTimeout(() => {
+                publishMessage(`B4ttle/${gameId}/timer`, JSON.stringify(playerInfo));
+            }, 1000);
         }
 
     });
@@ -100,6 +107,20 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                 }
             });
 
+            // subscreva no topico de timer de conexao
+            subscribeToTopic(`B4ttle/${gameId}/timer`, (message) => {
+                const massegePlayerInfo = JSON.parse(message);
+
+                for (let i = 1; i < 4; i++) {
+                    if (game.players[i] !== undefined) {
+                        if (game.players[i].id === massegePlayerInfo.id) {
+                            connectionTimers[i] = 1;
+                            console.log(`Player ${game.players[i].name} está conectado`);
+                        }
+                    }
+                }
+            });
+
             game.id = gameId;
             game.players = [playerInfo];
             game.host = playerInfo;
@@ -119,6 +140,18 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             });
 
+        }
+    }, 3000);
+
+    setTimeout(() => {
+        for (let i = 1; i < 4; i++) {
+            if (game.players[i] !== undefined) {
+                if (connectionTimers[i] === 0) {
+                    // Desconecta o jogador
+                    DesconectarJogador(game.players[i]);
+                }
+                connectionTimers[i] = 0;
+            }
         }
     }, 3000);
 }
