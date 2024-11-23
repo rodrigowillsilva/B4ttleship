@@ -2,7 +2,7 @@ import mqttServices from './mqttServices.js';
 import gameModels from './gameModel.js';
 
 const { connectMQTT, subscribeToTopic, publishMessage, unsubscribeFromTopic } = mqttServices;
-const { Game, Player, games } = gameModels;
+const { Game, Player, Ship, Point } = gameModels;
 
 const playerInfo = new Player("playerId", "playerName");
 const game = new Game("gameId");
@@ -76,6 +76,31 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             // Comnfigura um novo jogo
             subscribeToTopic(`B4ttle/${gameId}/jogada`, (message) => {
                 // Processa o movimento do jogador
+                const [action, body] = message.toString().split(' ');
+                console.log(`Action: ${action}, Body: ${body}`);
+                switch (action) {
+                    case 'SairDoJogo':
+                        const [bodyGame, playerBody] = body.split(' ');
+                        const playerInfo = JSON.parse(playerBody);
+
+                        // Remove todos os navios do jogador do tabuleiro x, y e Ship
+                        game.board.forEach((row, x) => {
+                            row.forEach((cell, y) => {
+                                cell = cell.filter(ship => ship.playerId !== playerInfo.id);
+                            });
+                        });
+
+                        // Remove o jogador da lista de jogadores
+                        game.players = game.players.filter(player => player.id !== playerInfo.id);
+
+                        // Se o jogador que saiu for o host, selecione um novo host
+
+
+
+                        break;
+                    default:
+                        break;
+                }
             });
 
             game.id = gameId;
@@ -101,9 +126,19 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
     }, 3000);
 }
 
+export function SairDoJogo() {
+    // Desconecta do jogo
+    publishMessage(`B4ttle/${game.gameId}/jogada`, `SairDoJogo ${JSON.stringify(playerInfo)}`);
+}
+
 export function PublicarMensagem(topic, message) {
     publishMessage(`B4ttle/${game.gameId}/${topic}`, message);
 }
+
+export function PrintGameInfo() {
+    console.log(`Game Info: ${JSON.stringify(game)}`);
+}
+
 
 function startGame() {
     // Inicializa a gameplay do jogo

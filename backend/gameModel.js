@@ -8,14 +8,27 @@ class Player {
     }
 }
 
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Ship {
+    constructor(playerId, x, y, size, direction) {
+        this.playerId = playerId;
+        this.points = [];
+    }
+}
+
 class Game {
     constructor(gameId) {
         this.gameId = gameId;
         this.host = undefined;
-        this.players = [];
+        this.players = new Array(4).fill(undefined);  
         this.turn = 0;
-        this.board = [];
-        this.ships = [];
+        this.board = new Array(10).fill(0).map(() => new Array(10).fill(0).map(() => new Array(4).fill(0)));
         this.gameStatus = 'waiting';
         this.winner = '';
         this.messages = [];
@@ -31,14 +44,12 @@ class Game {
     // Outros métodos conforme necessário
 }
 
-// Array para armazenar os jogos
-const games = [];
-
 // Exportando a classe Game e o array gameModels
 const gameModels = {
     Game,
-    Player,
-    games
+    Ship,
+    Point,
+    Player
 };
 
 export default gameModels;
