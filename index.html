@@ -29,13 +29,16 @@
         import { InicializaConexaoMQTT, ProcurarJogo, PublicarMensagem, SairDoJogo } from './backend/server.js';
 
         // Inicializa a conexão com o servidor MQTT
-        InicializaConexaoMQTT();
+        InicializaConexaoMQTT(() => {
+            console.log('Conexão com o servidor MQTT estabelecida');
+            ProcurarJogo("teste", `Rodrigo_${Math.random().toString(5)}`, () => {
+            console.log('Jogo Começado!');
+        });
+        });
 
         // Procura um jogo disponível
         //function ProcurarJogo(gameId, playerName, goToGameBoardCallback)
-        ProcurarJogo("teste", `Rodrigo_${Math.random().toString(5)}`, () => {
-            console.log('Jogo Começado!');
-        });
+        
 
         export function sendMessage() {
             // Função será definida posteriormente

@@ -10,8 +10,12 @@ const game = new Game("gameId");
 const connectionTimers = new Array(4).fill(0);
 
 // Conecte-se ao HiveMQ
-export function InicializaConexaoMQTT() {
-    connectMQTT();
+export function InicializaConexaoMQTT(onConnectCallback) {
+    connectMQTT(() => {
+        if (onConnectCallback) {
+            onConnectCallback();
+        }
+    });
 
     // subscreva no topico teste para testarmos no site do github pages
     subscribeToTopic('teste', (body) => {

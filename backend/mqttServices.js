@@ -5,7 +5,7 @@ let client;
 // Store topic-callback mappings
 const topicCallbacks = new Map();
 
-function connectMQTT() {
+function connectMQTT(onConnectCallback) {
     client = mqtt.connect(config.connectUrl, {
         clientId: config.client_Id,
         username: config.username,
@@ -15,6 +15,9 @@ function connectMQTT() {
 
     client.on('connect', () => {
         console.log('Connected to HiveMQ!');
+        if (onConnectCallback) {
+            onConnectCallback();
+        }
     });
 
     client.on('error', (err) => {
