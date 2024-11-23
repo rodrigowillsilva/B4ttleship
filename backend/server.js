@@ -67,13 +67,15 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             });
 
-            setTimeout((function() { 
+            function updateConnectionTimer() {
                 // Atualiza o connectionTimer do jogador a cada 1 segundo
                 publishMessage(`B4ttle/${gameId}/timer`, JSON.stringify(playerInfo));
                 console.log(`Player ${playerInfo.name} está conectado`);
-                setTimeout(arguments.callee, 1000); 
-
-            }, 1000));
+                setTimeout(updateConnectionTimer, 1000); // Call itself after 1 second
+            }
+            
+            // Start the recursive calls
+            setTimeout(updateConnectionTimer, 1000);
         }
 
     });
@@ -144,7 +146,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             });
 
-            setTimeout(() => {
+            function CheckConnection() {
                 for (let i = 1; i < 4; i++) {
                     if (game.players[i] !== undefined) {
                         if (connectionTimers[i] === 0) {
@@ -154,7 +156,12 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                         connectionTimers[i] = 0;
                     }
                 }
-            }, 3000);
+
+                setTimeout(CheckConnection, 3000);
+            }
+
+            setTimeout( CheckConnection, 3000);
+
 
         }
     }, 3000);
