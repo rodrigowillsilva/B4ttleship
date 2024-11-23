@@ -55,7 +55,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             // console.log(`${JSON.stringify(playerInfo)}`);
             connectionTimers.fill(1);
 
-            publishMessage(`B4ttle/${gameId}/descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)}`);
+            PublicarMensagem(`descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)}`);
 
             if (game.players.length >= 4) {
                 unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
@@ -86,7 +86,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             function updateConnectionTimer() {
                 // Atualiza o connectionTimer do jogador a cada 1 segundo
-                publishMessage(`B4ttle/${gameId}/timer`, JSON.stringify(playerInfo));
+                PublicarMensagem(`timer`, JSON.stringify(playerInfo));
                 setTimeout(updateConnectionTimer, 1000); // Call itself after 1 second
             }
 
@@ -97,7 +97,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     });
 
-    PublicarMensagem(`B4ttle/${gameId}/descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`);
+    PublicarMensagem(`descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`);
 
     setTimeout(() => {
         if (game.host === undefined) {
