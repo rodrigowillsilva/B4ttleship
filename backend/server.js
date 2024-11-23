@@ -67,9 +67,12 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             });
 
-            setTimeout(() => {
+            setTimeout((function() { 
+                // Atualiza o connectionTimer do jogador a cada 1 segundo
                 publishMessage(`B4ttle/${gameId}/timer`, JSON.stringify(playerInfo));
-            }, 1000);
+                setTimeout(arguments.callee, 1000); 
+
+            }, 1000));
         }
 
     });
@@ -140,21 +143,27 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             });
 
-        }
-    }, 3000);
-
-    setTimeout(() => {
-        for (let i = 1; i < 4; i++) {
-            if (game.players[i] !== undefined) {
-                if (connectionTimers[i] === 0) {
-                    // Desconecta o jogador
-                    DesconectarJogador(game.players[i]);
+            setTimeout(() => {
+                for (let i = 1; i < 4; i++) {
+                    if (game.players[i] !== undefined) {
+                        if (connectionTimers[i] === 0) {
+                            // Desconecta o jogador
+                            DesconectarJogador(game.players[i]);
+                        }
+                        connectionTimers[i] = 0;
+                    }
                 }
-                connectionTimers[i] = 0;
-            }
+            }, 3000);
+
         }
     }, 3000);
 }
+
+export function DesconectarJogador(player) {
+    // Desconecta o jogador
+    publishMessage(`B4ttle/${game.gameId}/jogada`, `SairDoJogo ${JSON.stringify(player)}`);
+}
+
 
 export function SairDoJogo() {
     // Desconecta do jogo
