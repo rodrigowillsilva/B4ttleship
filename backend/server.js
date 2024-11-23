@@ -52,6 +52,9 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             if (game.host !== undefined) {
                 return;
             }
+
+            console.log(`Jogo encontrado!`);
+
             game.host = messagePlayerInfo;
             unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
             goToGameBoardCallback();
@@ -76,6 +79,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             
             // Start the recursive calls
             setTimeout(updateConnectionTimer, 1000);
+            
         }
 
     });
@@ -85,6 +89,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
     setTimeout(() => {
         if (game.host === undefined) {
             // unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
+            console.log(`Nenhum jogo encontrado. Criando um novo jogo...`);
 
             // Comnfigura um novo jogo
             subscribeToTopic(`B4ttle/${gameId}/jogada`, (message) => {

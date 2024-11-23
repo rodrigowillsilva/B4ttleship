@@ -34,7 +34,7 @@
         // Procura um jogo disponível
         //function ProcurarJogo(gameId, playerName, goToGameBoardCallback)
         ProcurarJogo("teste", `Rodrigo_${Math.random().toString(5)}`, () => {
-            console.log('Jogo encontrado!');
+            console.log('Jogo Começado!');
         });
 
         export function sendMessage() {
@@ -55,6 +55,6 @@
 
         // Attach sendMessage to the window object
         window.sendMessage = sendMessage;
-        
+
     </script>
 </body>
