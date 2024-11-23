@@ -42,6 +42,14 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
         if (action === 'ProcurarJogo') {
             game.players.push(player);
             console.log(`Jogador ${player.name} entrou no jogo`);
+            let playerNumber = 0;
+            for (let i = 1; i < 4; i++) {
+                if (game.players[i] === undefined) {
+                    playerNumber = i;
+                    break;
+                }
+            }
+            console.log(`Player number: ${playerNumber}`);
             // console.log(`${JSON.stringify(playerInfo)}`);
             connectionTimers.fill(1);
 
@@ -167,23 +175,25 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
 export function DesconectarJogador(player) {
     // Desconecta o jogador
-    // Remove todos os navios do jogador do tabuleiro x, y e Ship
-    for (let i = 0; i < 10; i++) {
-        for (let j = 0; j < 10; j++) {
-            if (game.board[i][j][player.id] === 1) {
-                game.board[i][j][player.id] = 0;
-            }
-        }
-    }
 
-    // Setar o jogador como undefined
+    let playerIndex = -1;
     for (let i = 1; i < 4; i++) {
         if (game.players[i] !== undefined) {
             if (game.players[i].id === player.id) {
+                playerIndex = i;
                 game.players[i] = undefined;
             }
         }
     }
+
+    // Remove todos os navios do jogador do tabuleiro x, y e Ship
+    for (let i = 0; i < 10; i++) {
+        for (let j = 0; j < 10; j++) {
+            game.board[i][j][playerIndex] = 0;
+        }
+    }
+
+
     console.log(`Jogador ${player.name} saiu do jogo`);
     // Se o jogador que saiu for o host, selecione um novo host
     // TODO: Implementar a seleção de um novo host
