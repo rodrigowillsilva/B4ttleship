@@ -23,7 +23,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
     playerInfo.id = Math.floor(Math.random() * 10000000);
     playerInfo.name = playerName;
 
-    game.id = gameId;
+    game.gameId = gameId;
 
     subscribeToTopic(`B4ttle/${gameId}/descoberta`, (body) => {
         const [action, message] = body.toString().split(' ');
