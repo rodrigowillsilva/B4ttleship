@@ -147,6 +147,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             });
 
             function CheckConnection() {
+                console.log(`Checking connection...`);
                 for (let i = 1; i < 4; i++) {
                     if (game.players[i] !== undefined) {
                         if (connectionTimers[i] === 0) {
