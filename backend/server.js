@@ -32,6 +32,8 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
         console.log(`Message Player Info: ${messagePlayerInfo}`);
         const player = new Player(messagePlayerInfo.id, messagePlayerInfo.name);
 
+        console.log(`check 1`);
+
         if (playerInfo.id === messagePlayerInfo.id) {
             return;
         }
@@ -86,7 +88,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     });
 
-    publishMessage(`B4ttle/${gameId}/descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`);
+    setTimeout(publishMessage(`B4ttle/${gameId}/descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`), 100);
 
     setTimeout(() => {
         if (game.host === undefined) {
