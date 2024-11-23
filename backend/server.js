@@ -40,7 +40,6 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
         console.log(`passou aqui`);
 
         if (action === 'ProcurarJogo') {
-            game.players.push(player);
             console.log(`Jogador ${player.name} entrou no jogo`);
             let playerNumber = 0;
             for (let i = 1; i < 4; i++) {
@@ -49,6 +48,9 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                     break;
                 }
             }
+
+            game.players[playerNumber] = player;
+
             console.log(`Player number: ${playerNumber}`);
             // console.log(`${JSON.stringify(playerInfo)}`);
             connectionTimers.fill(1);
