@@ -57,12 +57,11 @@
         window.sendMessage = sendMessage;
 
         document.addEventListener('DOMContentLoaded', () => {
-            window.addEventListener('beforeunload', (event) => { // Perform any cleanup or save state here 
-                console.log('User is about to close the tab or browser');
-                PublicarMensagem('chat', 'Saindo do jogo...'); SairDoJogo();
-                // Optionally, show a confirmation dialog 
-                // event.preventDefault(); 
-                // event.returnValue = 'are you sure you want to leave?'; 
+            window.addEventListener('beforeunload', (event) => {
+                event.preventDefault();
+                event.returnValue = ''; // Isso é necessário para que o navegador mostre o diálogo padrão
+                PublicarMensagem('chat', 'Saindo do jogo...');
+                SairDoJogo();
             });
         });
     </script>
