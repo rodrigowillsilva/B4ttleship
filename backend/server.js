@@ -94,7 +94,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     });
 
-    setTimeout(publishMessage(`B4ttle/${gameId}/descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`), 100);
+    setTimeout(publishMessage(`B4ttle/${gameId}/descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`), 1000);
 
     setTimeout(() => {
         if (game.host === undefined) {
