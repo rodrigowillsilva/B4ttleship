@@ -107,15 +107,15 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             //goToGameBoardCallback();
 
             // Inscreva-se no tópico do jogo
-            subscribeToTopic(`B4ttle/${gameId}/estado`, (message) => {
-                // Para jogadores receberem o estado do jogo do host e atualizarem seu front-end
-            });
+            // subscribeToTopic(`B4ttle/${gameId}/estado`, (message) => {
+            //     // Para jogadores receberem o estado do jogo do host e atualizarem seu front-end
+            // });
 
-            subscribeToTopic(`B4ttle/${gameId}/chat`, (message) => {
-                // Processa as mensagens do chat
-                console.log(`Mensagem recebida: ${message.toString()}`);
+            // subscribeToTopic(`B4ttle/${gameId}/chat`, (message) => {
+            //     // Processa as mensagens do chat
+            //     console.log(`Mensagem recebida: ${message.toString()}`);
 
-            });
+            // });
 
             function updateConnectionTimer() {
                 // Atualiza o connectionTimer do jogador a cada 1 segundo
@@ -149,6 +149,10 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
     //                 break;
     //         }
     //     });
+
+    subscribeToTopic(`B4ttle/${gameId}/estado`, (message) => {
+        // Para jogadores receberem o estado do jogo do host e atualizarem seu front-end
+    });
 
     // subscreva no topico de timer de conexao
     subscribeToTopic(`B4ttle/${gameId}/timer`, (message) => {
