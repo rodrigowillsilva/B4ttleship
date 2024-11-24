@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>B4ttleShip</title>
@@ -8,6 +9,7 @@
     <!-- Adicionando o script da biblioteca MQTT.js via CDN -->
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
+
 <body>
     <h1>B4ttleShip</h1>
     <div class="input-container" id="inputContainer">
@@ -86,6 +88,7 @@
             }
         }
 
+        // Update ship creation in generateShips
         function generateShips() {
             const shipsContainer = document.getElementById('shipsContainer');
             const ships = [
@@ -100,7 +103,7 @@
                 const shipDiv = document.createElement('div');
                 shipDiv.className = 'ship';
                 shipDiv.addEventListener('click', () => {
-                    handleShipClick(ship);
+                    handleShipClick(ship, shipDiv);
                 });
                 for (let i = 0; i < ship.size; i++) {
                     const shipPart = document.createElement('div');
@@ -111,10 +114,19 @@
             });
         }
 
-        function handleShipClick(ship) {
-            console.log(`Navio clicado: ${ship.name}`);
+        // Update handleShipClick in index.html
+        function handleShipClick(ship, shipDiv) {
+            // Remove selected class from previous ship
+            const previousSelected = document.querySelector('.ship.selected');
+            if (previousSelected) {
+                previousSelected.classList.remove('selected');
+            }
+
+            // Add selected class to clicked ship
+            shipDiv.classList.add('selected');
+
+            console.log(`Navio selecionado: ${ship.name} (tamanho: ${ship.size})`);
             lastClickedShip = ship;
-            // Adicione aqui a lógica para quando um navio é clicado
         }
 
         function handleCellClick(i, j, button) {
@@ -128,4 +140,5 @@
         window.startGame = startGame;
     </script>
 </body>
+
 </html>
