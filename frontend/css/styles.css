@@ -109,8 +109,6 @@ h1 {
   background-color: #3498db; /* Azul para erros */
 }
 
-/* ... Estilos existentes ... */
-
 /* Estilos para a área de jogo */
 .game-area {
   display: flex;
@@ -130,6 +128,12 @@ h1 {
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.ship:hover {
+  transform: scale(1.05);
 }
 
 /* Estilos para cada parte do navio */
@@ -138,6 +142,28 @@ h1 {
   height: 40px;
   background-color: #7f8c8d;
   border: 1px solid #2c3e50;
+}
+
+/* Indica que o navio está selecionado */
+.ship.selected {
+  background-color: #3498db;
+  padding: 2px;
+  border: 2px solid #2980b9;
+}
+
+.ship.selected .ship-part {
+  background-color: #2980b9;
+}
+
+/* Classe adicionada quando o navio é colocado */
+.ship.placed {
+  background-color: #2ecc71;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.ship.placed .ship-part {
+  background-color: #27ae60;
 }
 
 /* Estilos para o botão de começar jogo */
@@ -161,42 +187,14 @@ h1 {
   background-color: #1abc9c;
 }
 
-/* Estilos para a área de jogo */
-.game-area {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+/* Indica que a célula do tabuleiro tem um navio */
+.board-button.ship-placed {
+  background-color: #2ecc71; /* Verde para navios colocados */
+  cursor: not-allowed;
 }
 
-/* Estilos para o contêiner de navios */
-.ships-container {
-  display: flex;
-  flex-direction: column;
-  margin-right: 20px;
-}
-
-/* Estilos para cada navio */
-.ship {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-
-/* Estilos para cada parte do navio */
-.ship-part {
-  width: 40px;
-  height: 40px;
-  background-color: #7f8c8d;
-  border: 1px solid #2c3e50;
-}
-
-.ship.selected {
-  background-color: #3498db;
-  padding: 2px;
-  border: 2px solid #2980b9;
-}
-
-.ship.selected .ship-part {
-  background-color: #2980b9;
+/* Indica que a célula já foi clicada mas sem navio */
+.board-button.shot {
+  background-color: #e74c3c; /* Vermelho para acertos */
+  cursor: not-allowed;
 }
