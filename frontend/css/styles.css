@@ -108,3 +108,34 @@ h1 {
 .board-button.miss {
   background-color: #3498db; /* Azul para erros */
 }
+
+/* ... Estilos existentes ... */
+
+/* Estilos para a área de jogo */
+.game-area {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Estilos para o contêiner de navios */
+.ships-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+/* Estilos para cada navio */
+.ship {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+/* Estilos para cada parte do navio */
+.ship-part {
+  width: 40px;
+  height: 40px;
+  background-color: #7f8c8d;
+  border: 1px solid #2c3e50;
+}

@@ -23,7 +23,7 @@ export function InicializaConexaoMQTT(onConnectCallback) {
     });
 }
 
-export function ProcurarJogo(gameId, playerName, goToGameBoardCallback, startGameCallback) {
+export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
     playerInfo.id = Math.floor(Math.random() * 10000000);
     playerInfo.name = playerName;
 
@@ -75,7 +75,6 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback, startGam
 
             if (game.players.length >= 4) {
                 unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
-                startGameCallback();
                 startGame();
             }
         }
@@ -249,7 +248,7 @@ export function PrintGameInfo() {
 function startGame() {
     // Inicia o jogo
     console.log(`Iniciando o jogo...`);
-    game.gameStatus = 'playing';
+    game.gameStatus = 'deploying';
 
 }
 

@@ -13,15 +13,23 @@
     <div class="input-container" id="inputContainer">
         <input type="text" id="playerName" placeholder="Nome do Jogador">
         <input type="text" id="roomName" placeholder="Nome da Sala">
-        <button id="startGameButton" onclick="startGame()">Iniciar Jogo</button>
+        <button id="searchGameButton" onclick="searchGame()">Procurar Jogo</button>
     </div>
 
     <!-- Conteúdo do jogo, inicialmente escondido -->
     <div class="game-container" id="gameContainer" style="display: none;">
-        <!-- Tabuleiro 10x10 -->
-        <table id="gameBoard">
-            <!-- As linhas e células serão geradas pelo JavaScript -->
-        </table>
+        <!-- Botão para começar o jogo -->
+        <button id="startGameButton" onclick="startGame()">Começar Jogo</button>
+        <div class="game-area">
+            <!-- Contêiner para os navios -->
+            <div class="ships-container" id="shipsContainer">
+                <!-- Navios serão gerados pelo JavaScript -->
+            </div>
+            <!-- Tabuleiro 10x10 -->
+            <table id="gameBoard">
+                <!-- As linhas e células serão geradas pelo JavaScript -->
+            </table>
+        </div>
     </div>
 
     <!-- Seu script com a lógica do jogo -->
@@ -33,13 +41,13 @@
             console.log('Conexão com o servidor MQTT estabelecida');
         });
 
-        function startGame() {
+        function searchGame() {
             const playerName = document.getElementById('playerName').value;
             const roomName = document.getElementById('roomName').value;
 
             // Procura um jogo com os valores fornecidos
             ProcurarJogo(roomName, playerName, () => {
-                console.log('Jogo Começou!');
+                console.log('Jogo Encontrado!');
                 // Esconde os campos de entrada e botão
                 document.getElementById('inputContainer').style.display = 'none';
                 // Mostra o conteúdo do jogo
@@ -47,6 +55,14 @@
                 // Gera o tabuleiro
                 generateGameBoard();
             });
+        }
+
+        function startGame() {
+            console.log('Jogo Começou!');
+            // Gera os navios
+            generateShips();
+            // Oculta o botão de começar jogo
+            document.getElementById('startGameButton').style.display = 'none';
         }
 
         function generateGameBoard() {
@@ -68,13 +84,35 @@
             }
         }
 
+        function generateShips() {
+            const shipsContainer = document.getElementById('shipsContainer');
+            const ships = [
+                { name: 'Porta-Aviões', size: 5 },
+                { name: 'Navio-Tanque', size: 4 },
+                { name: 'Destroyer', size: 3 },
+                { name: 'Submarino', size: 2 }
+            ];
+
+            ships.forEach(ship => {
+                const shipDiv = document.createElement('div');
+                shipDiv.className = 'ship';
+                for (let i = 0; i < ship.size; i++) {
+                    const shipPart = document.createElement('div');
+                    shipPart.className = 'ship-part';
+                    shipDiv.appendChild(shipPart);
+                }
+                shipsContainer.appendChild(shipDiv);
+            });
+        }
+
         function handleCellClick(i, j, button) {
             console.log(`Botão clicado na posição (${i}, ${j})`);
             // Adicione aqui a lógica para quando o botão é clicado
             //button.disabled = true; // Exemplo: desabilitar o botão após o clique
         }
 
-        // Anexa startGame ao objeto window
+        // Anexa searchGame ao objeto window
+        window.searchGame = searchGame;
         window.startGame = startGame;
     </script>
 </body>
