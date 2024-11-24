@@ -94,6 +94,8 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
                 }
             }
 
+            connectionTimers.fill(1);
+
             game.players[playerNumber] = player;
 
             console.log(`de jogadoreEncontrados`);
@@ -117,14 +119,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             // });
 
-            function updateConnectionTimer() {
-                // Atualiza o connectionTimer do jogador a cada 1 segundo
-                PublicarMensagem(`timer`, JSON.stringify(playerInfo));
-                setTimeout(updateConnectionTimer, 1000); // Call itself after 1 second
-            }
-
-            // Start the recursive calls
-            setTimeout(updateConnectionTimer, 1000);
+            
 
         }
 
@@ -174,6 +169,16 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
         console.log(`Mensagem recebida: ${message.toString()}`);
 
     });
+
+
+    function updateConnectionTimer() {
+        // Atualiza o connectionTimer do jogador a cada 1 segundo
+        PublicarMensagem(`timer`, JSON.stringify(playerInfo));
+        setTimeout(updateConnectionTimer, 1000); // Call itself after 1 second
+    }
+
+    // Start the recursive calls
+    setTimeout(updateConnectionTimer, 1000);
 
     function CheckConnection() {
         console.log(`Checking connection...`);
