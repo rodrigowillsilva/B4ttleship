@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B4ttleShip</title>
     <!-- Estilos CSS -->
     <link rel="stylesheet" href="./frontend/css/styles.css">
@@ -11,13 +10,20 @@
 </head>
 <body>
     <h1>B4ttleShip</h1>
-    <div class="input-container">
+    <div class="input-container" id="inputContainer">
         <input type="text" id="playerName" placeholder="Nome do Jogador">
         <input type="text" id="roomName" placeholder="Nome da Sala">
         <button id="startGameButton" onclick="startGame()">Iniciar Jogo</button>
     </div>
 
-    <!-- O seu script com a lógica do jogo -->
+    <!-- Conteúdo do jogo, inicialmente escondido -->
+    <div class="game-container" id="gameContainer" style="display: none;">
+        <!-- Placeholder que aparecerá quando ocorrer a troca -->
+        <p>O jogo começou! Prepare-se para jogar.</p>
+        <!-- Adicione aqui outros elementos do jogo -->
+    </div>
+
+    <!-- Seu script com a lógica do jogo -->
     <script type="module">
         import { InicializaConexaoMQTT, ProcurarJogo } from './backend/server.js';
 
@@ -32,12 +38,15 @@
 
             // Procura um jogo com os valores fornecidos
             ProcurarJogo(roomName, playerName, () => {
-                console.log('Jogo Começado!');
-                // Callback function a ser definida
+                console.log('Jogo Começou!');
+                // Esconde os campos de entrada e botão
+                document.getElementById('inputContainer').style.display = 'none';
+                // Mostra o conteúdo do jogo
+                document.getElementById('gameContainer').style.display = 'block';
             });
         }
 
-        // Attach startGame to the window object
+        // Anexa startGame ao objeto window
         window.startGame = startGame;
     </script>
 </body>

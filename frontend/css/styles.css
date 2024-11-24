@@ -59,3 +59,14 @@ h1 {
 .input-container button:active {
   background-color: #1abc9c;
 }
+
+/* Esconde o gameContainer inicialmente */
+#gameContainer {
+  display: none;
+}
+
+/* Opcional: estilos para o gameContainer */
+.game-container {
+  margin-top: 30px;
+  /* Adicione outros estilos conforme necessário */
+}
