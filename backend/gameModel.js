@@ -16,16 +16,15 @@ class Point {
 }
 
 class Ship {
-    constructor(playerId, x, y, size, direction) {
+    constructor(playerId, x, y) {
         this.playerId = playerId;
-        this.points = [];
+        this.point = new Point(x, y);
     }
 }
 
 class Game {
     constructor(gameId) {
         this.gameId = gameId;
-        this.host = undefined;
         this.players = new Array(4).fill(undefined);  
         this.turn = 0;
         this.board = new Array(10).fill(0).map(() => new Array(10).fill(0).map(() => new Array(4).fill(0)));

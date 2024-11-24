@@ -28,6 +28,11 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
     playerInfo.name = playerName;
 
     game.gameId = gameId;
+    game.players = [playerInfo];
+    game.turn = 0;
+    game.gameStatus = 'waiting';
+    game.winner = '';
+    game.messages = [];
 
     subscribeToTopic(`B4ttle/${gameId}/descoberta`, (body) => {
         const [action, message] = body.toString().split(' ');
@@ -43,8 +48,8 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
         console.log(`passou aqui`);
 
-        if (action === 'ProcurarJogo') {
-            console.log(`Jogador ${player.name} entrou no jogo`);
+        if (action === 'ProcurarJogadores') {
+            // console.log(`Jogador ${player.name} entrou no jogo`);
             let playerNumber = 0;
             for (let i = 1; i < 4; i++) {
                 if (game.players[i] === undefined) {
@@ -55,27 +60,51 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             game.players[playerNumber] = player;
 
-            console.log(`Player number: ${playerNumber}`);
-            // console.log(`${JSON.stringify(playerInfo)}`);
-            connectionTimers.fill(1);
+            console.log(`de procurarJogadores`);
+            for (let i = 1; i < 4; i++) {
+                if (game.players[i] !== undefined) {
+                    console.log(`Player ${game.players[i].name} está no jogo`);
+                }
+            }
 
-            PublicarMensagem(`descoberta`, `JogoEncontrado ${JSON.stringify(playerInfo)}`);
+            // console.log(`${JSON.stringify(playerInfo)}`);
+
+            PublicarMensagem(`descoberta`, `JogadoresEncontrados ${JSON.stringify(playerInfo)}`);
 
             if (game.players.length >= 4) {
                 unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
                 startGame();
             }
         }
-        else if (action === 'JogoEncontrado') {
-            if (game.host !== undefined) {
-                return;
+        else if (action === 'JogadoresEncontrados') {
+            // Checar se o jogador já está no jogo
+            for (let i = 1; i < 4; i++) {
+                if (game.players[i] !== undefined) {
+                    if (game.players[i].id === player.id) {
+                        return;
+                    }
+                }
             }
 
-            console.log(`Jogo encontrado!`);
+            let playerNumber = 0;
+            for (let i = 1; i < 4; i++) {
+                if (game.players[i] === undefined) {
+                    playerNumber = i;
+                    break;
+                }
+            }
 
-            game.host = messagePlayerInfo;
-            unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
-            goToGameBoardCallback();
+            game.players[playerNumber] = player;
+
+            console.log(`de jogadoreEncontrados`);
+            for (let i = 1; i < 4; i++) {
+                if (game.players[i] !== undefined) {
+                    console.log(`Player ${game.players[i].name} está no jogo`);
+                }
+            }
+
+            //unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
+            //goToGameBoardCallback();
 
             // Inscreva-se no tópico do jogo
             subscribeToTopic(`B4ttle/${gameId}/estado`, (message) => {
@@ -101,81 +130,70 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     });
 
-    PublicarMensagem(`descoberta`, `ProcurarJogo ${JSON.stringify(playerInfo)}`);
+    PublicarMensagem(`descoberta`, `ProcurarJogadores ${JSON.stringify(playerInfo)}`);
 
-    setTimeout(() => {
-        if (game.host === undefined) {
-            // unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
-            console.log(`Nenhum jogo encontrado. Criando um novo jogo...`);
+    // if (game.host === undefined) {
+    //     // unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
+    //     console.log(`Nenhum jogo encontrado. Criando um novo jogo...`);
 
-            // Comnfigura um novo jogo
-            subscribeToTopic(`B4ttle/${gameId}/jogada`, (message) => {
-                // Processa o movimento do jogador
-                const [action, body] = message.toString().split(' ');
-                console.log(`Action: ${action}, Body: ${body}`);
-                switch (action) {
-                    case 'movimento':
-                        // Processa o movimento do jogador
-                        break;
-                    default:
-                        break;
+    //     // Comnfigura um novo jogo
+    //     subscribeToTopic(`B4ttle/${gameId}/jogada`, (message) => {
+    //         // Processa o movimento do jogador
+    //         const [action, body] = message.toString().split(' ');
+    //         console.log(`Action: ${action}, Body: ${body}`);
+    //         switch (action) {
+    //             case 'movimento':
+    //                 // Processa o movimento do jogador
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     });
+
+    // subscreva no topico de timer de conexao
+    subscribeToTopic(`B4ttle/${gameId}/timer`, (message) => {
+        const massegePlayerInfo = JSON.parse(message);
+
+        for (let i = 1; i < 4; i++) {
+            if (game.players[i] !== undefined) {
+                if (game.players[i].id === massegePlayerInfo.id) {
+                    connectionTimers[i] = 1;
+                    console.log(`Player ${game.players[i].name} está conectado`);
                 }
-            });
-
-            // subscreva no topico de timer de conexao
-            subscribeToTopic(`B4ttle/${gameId}/timer`, (message) => {
-                const massegePlayerInfo = JSON.parse(message);
-
-                for (let i = 1; i < 4; i++) {
-                    if (game.players[i] !== undefined) {
-                        if (game.players[i].id === massegePlayerInfo.id) {
-                            connectionTimers[i] = 1;
-                            console.log(`Player ${game.players[i].name} está conectado`);
-                        }
-                    }
-                }
-            });
-
-            game.id = gameId;
-            game.players = [playerInfo];
-            game.host = playerInfo;
-            game.turn = 0;
-            game.gameStatus = 'waiting';
-            game.winner = '';
-            game.messages = [];
-
-            //playerInfo.name = 'Player 1';
-
-            goToGameBoardCallback();
-            subscribeToTopic(`B4ttle/${gameId}/chat`, (message) => {
-                // Processa as mensagens do chat
-                console.log(`Mensagem recebida: ${message.toString()}`);
-
-            });
-
-            function CheckConnection() {
-                console.log(`Checking connection...`);
-                for (let i = 1; i < 4; i++) {
-                    if (game.players[i] !== undefined) {
-                        console.log(`Player ${game.players[i].name} connectionTimer: ${connectionTimers[i]}`);
-                        if (connectionTimers[i] === 0) {
-                            // Desconecta o jogador
-                            
-                            DesconectarJogador(game.players[i]);
-                        }
-                        connectionTimers[i] = 0;
-                    }
-                }
-
-                setTimeout(CheckConnection, 3000);
             }
-
-            setTimeout(CheckConnection, 3000);
-
-
         }
-    }, 4000);
+    });
+
+   
+    subscribeToTopic(`B4ttle/${gameId}/chat`, (message) => {
+        // Processa as mensagens do chat
+        console.log(`Mensagem recebida: ${message.toString()}`);
+
+    });
+
+    function CheckConnection() {
+        console.log(`Checking connection...`);
+        for (let i = 1; i < 4; i++) {
+            if (game.players[i] !== undefined) {
+                console.log(`Player ${game.players[i].name} connectionTimer: ${connectionTimers[i]}`);
+                if (connectionTimers[i] === 0) {
+                    // Desconecta o jogador
+
+                    DesconectarJogador(game.players[i]);
+                }
+                connectionTimers[i] = 0;
+            }
+        }
+
+        setTimeout(CheckConnection, 3000);
+    }
+
+    setTimeout(CheckConnection, 3000);
+
+    goToGameBoardCallback();
 }
+    
+
 
 export function DesconectarJogador(player) {
     // Desconecta o jogador
@@ -204,10 +222,10 @@ export function DesconectarJogador(player) {
 }
 
 
-export function SairDoJogo() {
-    // Desconecta do jogo
-    publishMessage(`B4ttle/${game.gameId}/jogada`, `SairDoJogo ${JSON.stringify(playerInfo)}`);
-}
+// export function SairDoJogo() {
+//     // Desconecta do jogo
+//     publishMessage(`B4ttle/${game.gameId}/jogada`, `SairDoJogo ${JSON.stringify(playerInfo)}`);
+// }
 
 export function PublicarMensagem(topic, message) {
     publishMessage(`B4ttle/${game.gameId}/${topic}`, message);
