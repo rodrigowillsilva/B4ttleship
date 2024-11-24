@@ -60,6 +60,8 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             game.players[playerNumber] = player;
 
+            connectionTimers.fill(1);
+
             console.log(`de procurarJogadores`);
             for (let i = 1; i < 4; i++) {
                 if (game.players[i] !== undefined) {
@@ -157,7 +159,6 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             if (game.players[i] !== undefined) {
                 if (game.players[i].id === massegePlayerInfo.id) {
                     connectionTimers[i] = 1;
-                    console.log(`Player ${game.players[i].name} está conectado`);
                 }
             }
         }
