@@ -68,13 +68,13 @@ h1 {
 /* Estilos para o contêiner do jogo */
 .game-container {
   margin-top: 30px;
-  display: flex;
-  justify-content: center; /* Centraliza o tabuleiro horizontalmente */
+  text-align: center; /* Centraliza o conteúdo dentro do container */
 }
 
 /* Estilos para o tabuleiro */
 #gameBoard {
   border-collapse: collapse;
+  margin: 0 auto; /* Centraliza a tabela */
 }
 
 #gameBoard td {
