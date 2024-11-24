@@ -18,9 +18,10 @@
 
     <!-- Conteúdo do jogo, inicialmente escondido -->
     <div class="game-container" id="gameContainer" style="display: none;">
-        <!-- Placeholder que aparecerá quando ocorrer a troca -->
-        <p>O jogo começou! Prepare-se para jogar.</p>
-        <!-- Adicione aqui outros elementos do jogo -->
+        <!-- Tabuleiro 10x10 -->
+        <table id="gameBoard">
+            <!-- As linhas e células serão geradas pelo JavaScript -->
+        </table>
     </div>
 
     <!-- Seu script com a lógica do jogo -->
@@ -43,7 +44,34 @@
                 document.getElementById('inputContainer').style.display = 'none';
                 // Mostra o conteúdo do jogo
                 document.getElementById('gameContainer').style.display = 'block';
+                // Gera o tabuleiro
+                generateGameBoard();
             });
+        }
+
+        function generateGameBoard() {
+            const board = document.getElementById('gameBoard');
+            for (let i = 0; i < 10; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < 10; j++) {
+                    const cell = document.createElement('td');
+                    const button = document.createElement('button');
+                    button.textContent = '';
+                    button.className = 'board-button';
+                    button.addEventListener('click', () => {
+                        handleCellClick(i, j, button);
+                    });
+                    cell.appendChild(button);
+                    row.appendChild(cell);
+                }
+                board.appendChild(row);
+            }
+        }
+
+        function handleCellClick(i, j, button) {
+            console.log(`Botão clicado na posição (${i}, ${j})`);
+            // Adicione aqui a lógica para quando o botão é clicado
+            button.disabled = true; // Exemplo: desabilitar o botão após o clique
         }
 
         // Anexa startGame ao objeto window
