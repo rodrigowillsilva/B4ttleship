@@ -23,7 +23,7 @@ export function InicializaConexaoMQTT(onConnectCallback) {
     });
 }
 
-export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
+export function ProcurarJogo(gameId, playerName, goToGameBoardCallback, startGameCallback) {
     playerInfo.id = Math.floor(Math.random() * 10000000);
     playerInfo.name = playerName;
 
@@ -75,6 +75,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
             if (game.players.length >= 4) {
                 unsubscribeFromTopic(`B4ttle/${gameId}/descoberta`);
+                startGameCallback();
                 startGame();
             }
         }
@@ -245,11 +246,12 @@ export function PrintGameInfo() {
     console.log(`Game Info: ${JSON.stringify(game)}`);
 }
 
-
 function startGame() {
-    // Inicializa a gameplay do jogo
-}
+    // Inicia o jogo
+    console.log(`Iniciando o jogo...`);
+    game.gameStatus = 'playing';
 
+}
 
 
 // // Defina os dados da sua conexão HiveMQ
