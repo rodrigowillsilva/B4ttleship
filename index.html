@@ -44,7 +44,7 @@
 
     <!-- Seu script com a lógica do jogo -->
     <script type="module">
-        import { InicializaConexaoMQTT, ProcurarJogo, PublicarMensagem, ColocarNaviu } from './backend/server.js';
+        import { InicializaConexaoMQTT, ProcurarJogo, PublicarMensagem, ColocarNavio } from './backend/server.js';
 
         let lastClickedShip = null;
 
@@ -226,7 +226,7 @@
             // Implementar a lógica para comunicar a colocação do navio ao servidor
             // Por exemplo:
             //PublicarMensagem(`shipPlacement`, JSON.stringify({ ship: ship.name, position: {i, j}, name: ship.name }));
-            ColocarNaviu(i, j, ship.name);
+            ColocarNavio(i, j, ship.name);
             console.log(`Navio ${ship.name} colocado na posição (${i}, ${j})`);
         }
 
