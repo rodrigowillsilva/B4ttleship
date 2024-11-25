@@ -66,6 +66,8 @@
                 document.getElementById('gameContainer').style.display = 'block';
                 // Gera o tabuleiro
                 generateGameBoard();
+                // Adiciona o jogador atual à lista
+                updatePlayerList({ name: playerName });
             });
         }
 
@@ -75,6 +77,9 @@
             generateShips();
             // Oculta o botão de começar jogo
             document.getElementById('startGameButton').style.display = 'none';
+            // Adiciona o jogador atual à lista (caso ainda não esteja)
+            const playerName = document.getElementById('playerName').value;
+            updatePlayerList({ name: playerName });
         }
 
         function generateGameBoard() {
