@@ -198,3 +198,35 @@ h1 {
   background-color: #e74c3c; /* Vermelho para acertos */
   cursor: not-allowed;
 }
+
+/* Player List Container */
+.player-list-container {
+  position: fixed;
+  right: 20px;
+  top: 100px;
+  width: 200px;
+  background-color: #fff;
+  border: 2px solid #2c3e50;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.player-list-container h2 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.player-list-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.player-list-container li {
+  padding: 5px 0;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.player-list-container li:last-child {
+  border-bottom: none;
+}

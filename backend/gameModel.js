@@ -16,9 +16,10 @@ class Point {
 }
 
 class Ship {
-    constructor(playerId, x, y) {
+    constructor(playerId, x, y, name) {
         this.playerId = playerId;
         this.point = new Point(x, y);
+        this.name = name;
     }
 }
 

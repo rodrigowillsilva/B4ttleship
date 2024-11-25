@@ -34,9 +34,17 @@
         </div>
     </div>
 
+    <!-- Add this inside the <body> tag, preferably after the gameContainer -->
+    <div class="player-list-container" id="playerListContainer">
+        <h2>Jogadores</h2>
+        <ul id="playerList">
+            <!-- Player names will be appended here -->
+        </ul>
+    </div>
+
     <!-- Seu script com a lógica do jogo -->
     <script type="module">
-        import { InicializaConexaoMQTT, ProcurarJogo, PublicarMensagem } from './backend/server.js';
+        import { InicializaConexaoMQTT, ProcurarJogo, PublicarMensagem, ColocarNaviu } from './backend/server.js';
 
         let lastClickedShip = null;
 
@@ -50,7 +58,7 @@
             const roomName = document.getElementById('roomName').value;
 
             // Procura um jogo com os valores fornecidos
-            ProcurarJogo(roomName, playerName, () => {
+            ProcurarJogo(roomName, playerName, AdcionarJogador, () => {
                 console.log('Jogo Encontrado!');
                 // Esconde os campos de entrada e botão
                 document.getElementById('inputContainer').style.display = 'none';
@@ -198,11 +206,27 @@
             });
         }
 
+        // Add this function within the <script type="module"> tag in index.html
+
+        function updatePlayerList(player) {
+            const playerList = document.getElementById('playerList');
+            const listItem = document.createElement('li');
+            listItem.textContent = player.name;
+            playerList.appendChild(listItem);
+        }
+
+        // Modify the AdcionarJogador function to call updatePlayerList
+        function AdcionarJogador(player) {
+            updatePlayerList(player);
+            console.log(`Jogador adicionado: ${player.name}`);
+        }
+
         // Placeholder para chamada de função do servidor
         function publishShipPlacement(i, j, ship) {
             // Implementar a lógica para comunicar a colocação do navio ao servidor
             // Por exemplo:
-            // PublicarMensagem(`shipPlacement`, JSON.stringify({ ship: ship.name, position: {i, j} }));
+            //PublicarMensagem(`shipPlacement`, JSON.stringify({ ship: ship.name, position: {i, j}, name: ship.name }));
+            ColocarNaviu(i, j, ship.name);
             console.log(`Navio ${ship.name} colocado na posição (${i}, ${j})`);
         }
 

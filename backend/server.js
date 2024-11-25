@@ -23,7 +23,7 @@ export function InicializaConexaoMQTT(onConnectCallback) {
     });
 }
 
-export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
+export function ProcurarJogo(gameId, playerName, playerJoinedCallback, goToGameBoardCallback) {
     playerInfo.id = Math.floor(Math.random() * 10000000);
     playerInfo.name = playerName;
 
@@ -59,6 +59,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             }
 
             game.players[playerNumber] = player;
+            playerJoinedCallback(player);
 
             connectionTimers.fill(1);
 
@@ -99,6 +100,7 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
             connectionTimers.fill(1);
 
             game.players[playerNumber] = player;
+            playerJoinedCallback(player);
 
             console.log(`de jogadoreEncontrados`);
             for (let i = 1; i < 4; i++) {
@@ -149,6 +151,12 @@ export function ProcurarJogo(gameId, playerName, goToGameBoardCallback) {
 
     subscribeToTopic(`B4ttle/${gameId}/estado`, (message) => {
         // Para jogadores receberem o estado do jogo do host e atualizarem seu front-end
+    });
+
+    subscribeToTopic(`B4ttle/${gameId}/shipPlacement`, (message) => {
+        // Atualiando o tabuleiro com os navios
+        const ship = JSON.parse(message);
+        game.board[ship.point.x][ship.point.y][ship.playerId] = 1;
     });
 
     // subscreva no topico de timer de conexao
@@ -250,6 +258,14 @@ function startGame() {
     console.log(`Iniciando o jogo...`);
     game.gameStatus = 'deploying';
 
+}
+
+export function ColocarNavio(x, y, name) {
+    // Coloca um navio no tabuleiro
+    
+    const ship = new Ship(playerInfo.id, x, y, name);
+
+    PublicarMensagem(`shipPlacement`, `${JSON.stringify(ship)}`);
 }
 
 
